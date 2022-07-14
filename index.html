@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker</title>
+</head>
+<script>
+
+    function editProfile() {
+        document.querySelector('.container').style.display = "none";
+        document.querySelector('.container-edit').style.display = "block"
+
+        const name = document.querySelector('#name').textContent;
+        document.querySelector('#input-name').value = name;
+
+        const email = document.querySelector('#email').textContent;
+        document.querySelector('#input-email').value = email;
+
+        const interest = document.querySelector('#interests').textContent;
+        document.querySelector('#input-interests').value = interest;
+    }
+
+    function saveProfile() {
+
+        const name = document.querySelector('#name').textContent;
+        document.querySelector('#input-name').value = name;
+
+        const email = document.querySelector('#email').textContent;
+        document.querySelector('#input-email').value = email;
+
+        const interest = document.querySelector('#interests').textContent;
+        document.querySelector('#input-interests').value = interest;
+
+        document.querySelector('.container').style.display = "block";
+        document.querySelector('.container-edit').style.display = "none"
+    }
+
+</script>
+
+<body>
+    <div class="container">
+        <h1 id="header">User Profile</h1>
+        <img src="./pro1.jpg" width="300" height="400" alt="profile" />
+        Name: <h3 id="name">vikahs</h3>
+        <hr />
+        email: <h3 id="email">vickey@gmail.com</h3>
+        <hr />
+        interests: <h3 id="interests">coding</h3>
+        <hr />
+
+        <button class="button" onclick="()=>editProfile()">Edit Profile</button>
+    </div>
+    <div class="container-edit">
+        <h1 class="header">User Profile</h1>
+        <img src="./pro1.jpg" width="300" height="400" />
+
+        Name: <input id="input-name" type="text" />
+        <hr />
+        email: <input id="input-email" type="email" />
+        <hr />
+        Intrests: <input id="input-interests" type="text" />
+        <hr />
+        <button class="button" onclick="saveProfile()">szve Profile</button>
+    </div>
+</body>
+
+</html>
