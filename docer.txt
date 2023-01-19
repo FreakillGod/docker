@@ -1,0 +1,85 @@
+docker run -d redis            => for detached mode
+
+//run redis container with differenr versiona
+
+run redis:4.0 	=>oull the verison and runs it
+
+//docker run == docker pull + docker start
+
+//Troubleshoot
+docker logs < containerid // name>
+
+//create a new containet with name
+
+docker run -d -p6001:6379 --name vikash redis
+
+docker stop vikash
+docker logs vikash
+
+//inside the service terminal
+docker exec -it CONTAINERID /bin/sh
+
+-ls -pwd -env
+
+docker run redis  => create new container with an image //use to define all the atrributes like port binding
+docket start <Id> => to start that service with all teh default binding
+
+docker build -t my-app:1.0 .
+
+//to delete this image 
+docker rm contianerid
+docker rmi imageid
+
+
+==Docker Compose==
+docker-compose build
+
+docker-compose build --no-cache
+
+docker-compose up -d     //to start  or to update when changes in the compose file
+
+docker network ls  //list of docker networks
+docker network inspect <network name>
+
+docker-compose logs -f		//to follow logs
+
+
+docker-compose logs -f <serive name>	//for single service
+
+docker-compose exec redis(service-name as in docker-compose name) redis-cli lrange students 0 -1   (means get all the data)
+
+or access the terminal 
+
+docker-compose exec app(service name) /bin/bash
+
+
+
+(3 containers seperatly in single machine(port conflict can happen))
+docker-compose up --scale app=3
+//will work when there are worker container to get this app from distributer container
+
+
+
+
+//push the image to docker hub registry
+
+docker-compose push   //goes through every service define in compose file
+                      //and if service an custom image serive it will be pushed
+
+docker-compose pull   //to pull all the custom images from the register registry
+
+(push =>to push image
+pull =>to pull the image)
+
+
+//How to use multiple compose file in single project
+docker-compose.override.yml         
+        => docker take the default file and apply the changes on top of it using this file
+        => mostly used during development
+
+
+//use perticular docker compose file ro build services
+docker-compose -f monogo.yml up -d
+
+//or add override file
+docker-compose -f monogo.yml -f docker-compose.override.yml up -d
