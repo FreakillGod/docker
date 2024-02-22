@@ -1,0 +1,29 @@
+.deploy: &deploy
+  stage: deploy
+  script:
+    - rm .env && cp /home/ubuntu/zeyada-env/frontend_${CI_ENVIRONMENT_SLUG}.env .env
+    - export ENVIRONMENT_URL=${CI_ENVIRONMENT_URL#"https://api."}
+    - export ENVIRONMENT_SLUG=${CI_ENVIRONMENT_SLUG}
+    - docker compose -p ${CI_ENVIRONMENT_SLUG} up --build -d
+    - rm -rf ${CI_PROJECT_DIR}
+
+portal-dev-deploy:
+  environment:
+    name: dev
+    url: https://api.dev.zeyada.sundayapi.com
+  tags: ['zeyada-dev']
+  only:
+    - dev
+  when: manual
+  <<: *deploy
+
+portal-uat-deploy:
+  environment:
+    name: uat
+    url: https://api.uat.zeyada.sundayapi.com
+  tags: ['zeyada-uat']
+  only:
+    - uat
+  when: manual
+  <<: *deploy
+
