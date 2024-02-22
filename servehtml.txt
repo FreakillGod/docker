@@ -1,0 +1,43 @@
+
+//Dockerfile
+# Step 1: Build the app in image 'builder'
+ARG buildtype
+FROM node:18-alpine3.17 AS builder
+ENV NODE_OPTIONS=--max_old_space_size=8192
+WORKDIR /usr/src/app
+COPY . .
+RUN npm i --legacy-peer-deps && npm run build --$buildtype
+
+FROM nginx:alpine
+EXPOSE 2222
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+RUN chown -R nginx /etc/nginx /var/run /run
+
+#support running as any user
+RUN chmod -R a+w /var/run /run /var/cache /var/cache/nginx
+
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/ .
+
+
+//Docker compose
+services:
+  zeyada-portal:
+    restart: always
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    environment:
+      - PORT=2222
+      - VIRTUAL_PORT=2222
+      - VIRTUAL_HOST=portal.${ENVIRONMENT_URL}
+      - LETSENCRYPT_HOST=portal.${ENVIRONMENT_URL}
+    env_file:
+      - .env
+    networks:
+      - zeyada-network
+
+networks:
+  zeyada-network:
+    name: zeyada-network_${ENVIRONMENT_SLUG}
+    external: true
