@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+    ServerName mywebsite.com
+    ServerAlias www.mywebsite.com
+
+    # Redirect HTTP to HTTPS
+    Redirect permanent / https://mywebsite.com/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName mywebsite.com
+    ServerAlias www.mywebsite.com
+
+    # SSL/TLS Configuration
+    SSLEngine on
+    SSLCertificateFile /path/to/your/certificate.pem
+    SSLCertificateKeyFile /path/to/your/private-key.pem
+
+    # Your website configuration goes here
+</VirtualHost>
